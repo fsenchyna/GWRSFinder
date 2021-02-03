@@ -21,14 +21,16 @@
 --------------------------------------------------------------------------------------------------
 # folder structure for pipeline:
     see ./test
-        ./blast_index - contains the reference genome
-        ./all_strains_blast_index - contains all other genomes to be checked for the multi-copy sequences
-         ./tallymer_index will contain tallymer files
-        ./20mers_minocc$X - will contain output files
+        ./blast_index #contains the reference genome
+        ./all_strains_blast_index #contains all other genomes to be checked for the multi-copy sequences
+         ./tallymer_index #will contain tallymer files
+        ./20mers_minocc$X #will contain output files
 
 # If genomes are in multi-fasta format, need to change to single fasta sequence using the following commands:
 1. Convert multifasta files to single fasta files for all genomes (reference and non-reference)
+    
     C. glabrata (M. tuberculosis not necessary, all files are single fasta), 
+    
     dir: ./blast_index:
 
         $ single_fasta.py cbs138.fna cbs138
@@ -40,7 +42,9 @@
         $ single_fasta.py dsy562.fna dsy562
 
 2. Put all (non-reference) genomes into one file
+   
     dir: ./all_strains_blast_index
+   
     C. glabrata:
         
          $ cat w10d4.fasta dsy565.fasta dsy562.fasta >> all_genomes.fasta
@@ -50,6 +54,7 @@
 
 # Create separate BLAST databases for the reference genome and the other genomes:
 1. dir: ./blast_index
+    
     C. glabrata:
 
         $ makeblastdb -in cbs138.fasta -dbtype nucl -parse_seqids
@@ -57,6 +62,7 @@
         
         $ makeblastdb -in GCF_000195955.2.fna -dbtype nucl -parse_seqids
 2. dir: ./all_strains_blast_index
+    
     C. glabrata and M. tuberculosis:
 	    
         $ makeblastdb -in all_genomes.fasta -dbtype nucl -parse_seqids
@@ -65,10 +71,10 @@
 1. dir: ./tallymer_index
     change the following variables in GWRSFinder_commands.sh to fit the genome(s) being searched: 
         
-        GENOME='../cbs138.fna' # reference genome file \
-        NAME='cbs138' # reference genome name \
-        MIN='10' # minimum threshold the 20mer must be present in the genome to be detected \
-        BLAST='../20mers_minocc10/repeated_sequences_10.fasta' # file where blast result is saved \
+        GENOME='../cbs138.fna' #reference genome file
+        NAME='cbs138' #reference genome name
+        MIN='10' #minimum threshold the 20mer must be present in the genome to be detected
+        BLAST='../20mers_minocc10/repeated_sequences_10.fasta' #file where blast result is saved
     
     example: C. glabrata:	
 	    
