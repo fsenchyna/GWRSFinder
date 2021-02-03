@@ -15,16 +15,35 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
 
 --------------------------------------------------------------------------------------------------
 # INSTRUCTIONS
-Examples Candida glabrata and Mycobacterium tuberculosis are in the in test directory. 
+Examples Candida glabrata and Mycobacterium tuberculosis are used to go through the pipeline. 
 The steps below contain command line instructions that must be run and the directory they must 
 be run in (dir:). 
 --------------------------------------------------------------------------------------------------
-# Folder structure for pipeline:
+# Directory structure for pipeline:
     see ./test/
         ./blast_index #contains the reference genome
         ./all_strains_blast_index #contains all other genomes to be checked for the multi-copy sequences
         ./tallymer_index #will contain tallymer files
-        ./20mers_minocc$X #will contain output files
+        ./20mers_minoccX #will contain output files
+
+
+# Download genomes
+1. Download C. glabrata genomes: 
+    reference genome (add to dir: ./blast_index)
+    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=28426 #renamed cbs138.fna
+
+    other genomes (add to dir: ./all_strains_blast_index)
+    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323769 #renamed dsy562.fna
+    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323770 #renamed dsy565.fna
+
+2. Download M. tuberculosis genomes: 
+    reference genome (add to dir: ./blast_index)
+    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=159857 #renamed GCF_000195955.2.fna
+
+    other genomes (add to dir: ./all_strains_blast_index)
+    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=263929 #renamed GCF_001544705.1.fna
+    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385506 #renamed GCF_003287145.1.fna
+    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385507 #renamed GCF_003287165.1.fna
 
 # If genomes are multiple fasta sequences, need to change to single fasta sequence using the following commands:
 1. Convert multifasta files to single fasta files for all genomes (reference and non-reference)
@@ -37,7 +56,6 @@ be run in (dir:).
 
     dir: ./all_strains_blast_index
 
-        $ single_fasta.py w10d4.fna w10d4
         $ single_fasta.py dsy565.fna dsy565
         $ single_fasta.py dsy562.fna dsy562
 
@@ -49,7 +67,7 @@ be run in (dir:).
    
     C. glabrata:
         
-         $ cat w10d4.fasta dsy565.fasta dsy562.fasta >> all_genomes.fasta
+         $ cat dsy565.fasta dsy562.fasta >> all_genomes.fasta
     M. tuberculosis:
 
    	    $ cat GCF_003287165.1.fna GCF_001544705.1.fna GCF_003287145.1.fna >> all_genomes.fasta
