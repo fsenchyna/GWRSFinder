@@ -133,12 +133,12 @@ because it is of higher copy number, however it may not be possible to design pr
 length sequence might be the better option. 
 
 Lastly, this pipeline has only been tested on bacterial and fungal genomes. It is not recommended to try anything 
-larger
+larger.
 
 --------------------------------------------------------------------------------------------------
 # GENOME SOURCES
 --------------------------------------------------------------------------------------------------
-1. glabrata: 
+1. C. glabrata: 
 
 https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=28426 #renamed cbs138.fna
 
