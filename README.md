@@ -131,3 +131,6 @@ in the genome 5 times. Both of these sequences may be in the final list and manu
 is required to check this. It is kept this way for primer design. The 60 nucleotide sequence is more desirable
 because it is of higher copy number, however it may not be possible to design primers on then and so the 80 
 length sequence might be the better option. 
+
+Lastly, this pipeline has only been tested on bacterial and fungal genomes. It is not recommended to try anything 
+larger
