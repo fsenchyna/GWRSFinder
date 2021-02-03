@@ -8,9 +8,12 @@ import sys
 import re
 
 Usage = """
-Creates fasta file containing the sequences from a genome (arg 1) whose start and end positions are given
-in a text file in a tab delimited format (arg 2) 
-Example: repeat_seq_3.py AL123456.fasta 20mers_minocc10_merged.txt repeated_sequences_10.txt
+Creates fasta file containing the sequences from a reference genome (arg 1) whose start and end 
+positions are given in a text file in a tab delimited format (arg 2) 
+
+Example: repeat_seq_3.py AL123456.fasta 20mers_minoccX_merged.txt repeated_sequences_X.txt
+
+X referes to the minimum copy cut-off of 20mers used
 """
 
 	

@@ -5,7 +5,8 @@ import re
 
 Usage = """
 Removes headers from fasta file and adds all sequences in file together as one long sequence, with input title 
-as the sole header. 
+as the sole header.
+ 
 Example: single_fasta.py genome.fna title
 """
 	

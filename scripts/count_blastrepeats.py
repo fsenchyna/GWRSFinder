@@ -4,8 +4,11 @@ import sys
 import re
 
 Usage = """
-Counts occurrence of repeats from blast perfect result output file
-Example: count_blastrepeats.py repeated_sequences_minocc$x_pos.txt repeated_sequences_$x.txt
+Counts occurrence of sequences from blast filtered result output file
+
+Example: count_blastrepeats.py repeated_sequences_minoccX_pos.txt repeated_sequences_X.txt
+
+X referes to the minimum copy cut-off of 20mers used
 """
 
 	

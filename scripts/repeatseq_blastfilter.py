@@ -4,7 +4,8 @@ import sys
 import re
 
 Usage = """
-Filters blast tabular result (arg 1) so you only see perfect alignments
+Filters blast result tab delimited text file (arg 1) so you only see perfect alignments
+
 Example: repeatseq_blastfilter.py blast_result.txt filtered_perfect_result.txt
 """
 	

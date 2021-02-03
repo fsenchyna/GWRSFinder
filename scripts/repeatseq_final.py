@@ -4,9 +4,13 @@ import sys
 import re
 
 Usage = """
-Gives final result of GWRSFinder pipeline
-Example: repeatseq_final.py repeated_sequences_${MIN}.txt \
-filteredblast_all_strains.txt repeated_sequencesfinal_${MIN}.txt
+Gives final result of GWRSFinder pipeline with multi-copy sequences, sequence length, 
+copy number in reference genome, and result in other genomes 
+
+Example: repeatseq_final.py repeated_sequences_X.txt
+filteredblast_all_strains.txt repeated_sequencesfinal_X.txt
+
+X referes to the minimum copy cut-off of 20mers used
 """
 
 	

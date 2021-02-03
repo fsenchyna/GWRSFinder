@@ -5,6 +5,7 @@ import re
 
 Usage = """
 Filters blast tabular result so you only see perfect alignments
+
 repeatseq_blastfilter.py unfilteredblast_allstrains.txt filtered_perfect_result.txt
 """
 
