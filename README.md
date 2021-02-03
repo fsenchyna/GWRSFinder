@@ -29,21 +29,21 @@ be run in (dir:).
 
 # Download genomes
 1. Download C. glabrata genomes: 
-    reference genome (add to dir: ./blast_index)
-    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=28426 #renamed cbs138.fna
+reference genome (add to dir: ./blast_index)
+https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=28426 #renamed cbs138.fna
 
-    other genomes (add to dir: ./all_strains_blast_index)
-    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323769 #renamed dsy562.fna
-    https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323770 #renamed dsy565.fna
+other genomes (add to dir: ./all_strains_blast_index)
+https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323769 #renamed dsy562.fna
+https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=323770 #renamed dsy565.fna
 
 2. Download M. tuberculosis genomes: 
-    reference genome (add to dir: ./blast_index)
-    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=159857 #renamed GCF_000195955.2.fna
+reference genome (add to dir: ./blast_index)
+https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=159857 #renamed GCF_000195955.2.fna
 
-    other genomes (add to dir: ./all_strains_blast_index)
-    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=263929 #renamed GCF_001544705.1.fna
-    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385506 #renamed GCF_003287145.1.fna
-    https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385507 #renamed GCF_003287165.1.fna
+other genomes (add to dir: ./all_strains_blast_index)
+https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=263929 #renamed GCF_001544705.1.fna
+https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385506 #renamed GCF_003287145.1.fna
+https://www.ncbi.nlm.nih.gov/genome/166?genome_assembly_id=385507 #renamed GCF_003287165.1.fna
 
 # If genomes are multiple fasta sequences, need to change to single fasta sequence using the following commands:
 1. Convert multifasta files to single fasta files for all genomes (reference and non-reference)
