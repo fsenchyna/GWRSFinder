@@ -15,11 +15,11 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
 
 --------------------------------------------------------------------------------------------------
 # INSTRUCTIONS
-    Examples Candida glabrata and Mycobacterium tuberculosis are in the in test directory. 
-    The steps below contain command line instructions that must be run and the directory they must 
-    be run in (dir:). 
+Examples Candida glabrata and Mycobacterium tuberculosis are in the in test directory. 
+The steps below contain command line instructions that must be run and the directory they must 
+be run in (dir:). 
 --------------------------------------------------------------------------------------------------
-# folder structure for pipeline:
+# Folder structure for pipeline:
     see ./test/
         ./blast_index #contains the reference genome
         ./all_strains_blast_index #contains all other genomes to be checked for the multi-copy sequences
@@ -79,7 +79,7 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
         $ MIN='10' #minimum threshold the 20mer must be present in the genome to be picked up
         $ BLAST='../20mers_minocc10/repeated_sequences_10.fasta' #file where blast result is saved
     
-    example: C. glabrata:	
+    example, C. glabrata:	
 	    
         $ TALLYMER='gt'
 	    $ GENOME='../blast_index/cbs138.fasta'
@@ -91,7 +91,7 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
 	    $ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 
     
-    example: M. tuberculosis:
+    example, M. tuberculosis:
 	
         $ TALLYMER='gt'
 	    $ GENOME='../blast_index/GCF_000195955.2.fna'
@@ -114,7 +114,7 @@ number of repeats chosen. This is a tab delimited file containing:
 'copy number' refers to copy number in reference genome.
 
 --------------------------------------------------------------------------------------------------
-# Limitations to consider
+# LIMITATIONS
 --------------------------------------------------------------------------------------------------
 Depending on the abundance (or lack thereof) of multicopy sequences within a given reference genome,
 the minimum copy number parameter of the 20mer should be adjusted. For instance, if the highest
