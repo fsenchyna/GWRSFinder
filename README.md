@@ -11,7 +11,7 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
     Installation instructions: https://www.ncbi.nlm.nih.gov/books/NBK279671/#introduction.MacOSX
 3. Bedtools (v2.26.0)
     Installation source: https://github.com/arq5x/bedtools2/releases
-4. Add scripts in ./script to PATH and ensure scripts are executable
+4. Add scripts in ./scripts to PATH and ensure scripts are executable
 
 --------------------------------------------------------------------------------------------------
 # INSTRUCTIONS
