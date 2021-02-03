@@ -1,9 +1,9 @@
 #! /bin/bash
 TALLYMER='gt'
-GENOME='../blast_index/cbs138.fasta'
-NAME='cbs138'
-MIN='10'
-BLAST='../20mers_minocc10/repeated_sequences_10.fasta'
+GENOME='../blast_index/GCF_000195955.2.fna'
+NAME='GCF_000195955.2'
+MIN='5'
+BLAST='../20mers_minocc5/repeated_sequences_5.fasta'
 ALLSTRAINS='../all_strains_blast_index/all_genomes.fasta'
 outfmt1=(-outfmt '6 qseqid qstart qend sstart send nident mismatch gaps sstrand')
 outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
@@ -49,8 +49,8 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 	-i ../20mers_minocc${MIN}/20mers_minocc${MIN}_pos.bed -s -c 6 -o distinct \
 	> ../20mers_minocc${MIN}/20mers_minocc${MIN}_merged.txt
 
-### repeat_seq_3: make fasta file out of repeated sequences
-	repeat_seq_3.py \
+### repeatseq_3: make fasta file out of repeated sequences
+	repeatseq_3.py \
 	$GENOME \
 	../20mers_minocc${MIN}/20mers_minocc${MIN}_merged.txt \
 	../20mers_minocc${MIN}/repeated_sequences_${MIN}.fasta
@@ -68,7 +68,7 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 	blastn -db ${ALLSTRAINS} -query ${BLAST} "${outfmt2[@]}" > ../20mers_minocc${MIN}/unfilteredblast_all_strains.txt
 	
 ### filter blast result
-	repeatseq_blastperfect.py ../20mers_minocc${MIN}/unfilteredblast_all_strains.txt \
+	repeatseq_blastfilter_all.py ../20mers_minocc${MIN}/unfilteredblast_all_strains.txt \
 	../20mers_minocc${MIN}/filteredblast_all_strains.txt \
 	
 ### add filtered all strain blast result to repeated sequences file

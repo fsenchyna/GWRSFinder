@@ -74,10 +74,10 @@
     
     change the following variables in GWRSFinder_commands.sh to fit the genome(s) being searched: 
         
-        GENOME='../cbs138.fna' #reference genome file
-        NAME='cbs138' #reference genome name
-        MIN='10' #minimum threshold the 20mer must be present in the genome to be picked up
-        BLAST='../20mers_minocc10/repeated_sequences_10.fasta' #file where blast result is saved
+        $ GENOME='../cbs138.fna' #reference genome file
+        $ NAME='cbs138' #reference genome name
+        $ MIN='10' #minimum threshold the 20mer must be present in the genome to be picked up
+        $ BLAST='../20mers_minocc10/repeated_sequences_10.fasta' #file where blast result is saved
     
     example: C. glabrata:	
 	    

@@ -6,7 +6,7 @@ import sys
 Usage = """
 Converts tallymer file containing sequence position from the search function into a bed file
 
-example: tallymer2bed.py 20mers_minoccX_pos.txt 20mers_minoccX_pos.bed
+Example: tallymer2bed.py 20mers_minoccX_pos.txt 20mers_minoccX_pos.bed
 
 X referes to the minimum copy cut-off of 20mers used
 """

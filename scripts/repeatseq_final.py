@@ -7,8 +7,7 @@ Usage = """
 Gives final result of GWRSFinder pipeline with multi-copy sequences, sequence length, 
 copy number in reference genome, and result in other genomes 
 
-Example: repeatseq_final.py repeated_sequences_X.txt
-filteredblast_all_strains.txt repeated_sequencesfinal_X.txt
+Example: repeatseq_final.py repeated_sequences_X.txt filteredblast_all_strains.txt repeated_sequencesfinal_X.txt
 
 X referes to the minimum copy cut-off of 20mers used
 """
@@ -67,6 +66,7 @@ else:
 	try:	
 		with open(inFileName,"r") as repeatFile:
 			lineNumber = 0
+			# add genome name and number of copies of given sequence
 			for line in repeatFile:
 				lineStrip = line.strip('\n')
 				columns = lineStrip.split('\t')

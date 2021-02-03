@@ -6,7 +6,7 @@ import re
 Usage = """
 Filters blast tabular result so you only see perfect alignments
 
-repeatseq_blastfilter.py unfilteredblast_allstrains.txt filtered_perfect_result.txt
+Example: repeatseq_blastfilter.py unfilteredblast_allstrains.txt filtered_perfect_result.txt
 """
 
 	
@@ -36,6 +36,7 @@ else:
 				pIdent = elementList[3]
 				mismatch = float(elementList[4])
 				gaps = float(elementList[5])
+				#only write out perfect repeats
 				if alignLength == length and mismatch == 0 and gaps == 0:
 					perfectMatch.append(queryName)
 					outString = "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (queryName, length, sSeqid, alignLength, pIdent, mismatch, gaps)
