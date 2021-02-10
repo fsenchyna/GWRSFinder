@@ -3,6 +3,7 @@ Purpose: To interrogate small genomes and identify conserved multicopy sequences
 
 --------------------------------------------------------------------------------------------------
 # INSTALLATION REQUIREMENTS 
+	Everything ran on MacOS and Python v3.7
 --------------------------------------------------------------------------------------------------
 1. genometools (v.1.5.9) 
     Installation source: http://genometools.org/pub/
