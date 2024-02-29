@@ -45,13 +45,3 @@ jobs:
           # The number of times that to try querying the GitHub Releases API in case of a rate-limited failure.
           max-retries: 2 # optional, default is 3
           
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-  test:
-      runs-on: ubuntu-latest
-      needs: [build]
-
-      steps:
