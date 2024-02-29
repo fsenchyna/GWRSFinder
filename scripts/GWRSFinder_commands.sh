@@ -1,9 +1,10 @@
 #! /bin/bash
-TALLYMER='gt'
-GENOME='../blast_index/GCF_000195955.2.fna'
-NAME='GCF_000195955.2'
-MIN='5'
-BLAST='../20mers_minocc5/repeated_sequences_5.fasta'
+# changed tallymer path
+TALLYMER='~/gt/bin/gt'
+GENOME='../blast_index/GCF_019219615.1.fna'
+NAME='GCF_019219615.1'
+MIN='10'
+BLAST='../20mers_minocc10/repeated_sequences_10.fasta'
 ALLSTRAINS='../all_strains_blast_index/all_genomes.fasta'
 outfmt1=(-outfmt '6 qseqid qstart qend sstart send nident mismatch gaps sstrand')
 outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
@@ -39,7 +40,7 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 	${TALLYMER} tallymer search -output qseqnum qpos counts sequence -tyr \
 	tyr-${NAME} -q ${GENOME}  > ../20mers_minocc${MIN}/20mers_minocc${MIN}_pos.txt 
 
-### add 20 to start position to get end position
+### add 20 to start position to get end position PIPE?
 	tallymer2bed.py \
 	../20mers_minocc${MIN}/20mers_minocc${MIN}_pos.txt \
 	../20mers_minocc${MIN}/20mers_minocc${MIN}_pos.bed \
@@ -49,7 +50,7 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 	-i ../20mers_minocc${MIN}/20mers_minocc${MIN}_pos.bed -s -c 6 -o distinct \
 	> ../20mers_minocc${MIN}/20mers_minocc${MIN}_merged.txt
 
-### repeatseq_3: make fasta file out of repeated sequences
+### repeatseq_3: make fasta file out of repeated sequences PIPE??
 	repeatseq_3.py \
 	$GENOME \
 	../20mers_minocc${MIN}/20mers_minocc${MIN}_merged.txt \
@@ -58,7 +59,7 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 ### blast against own database
 	blastn -db ${GENOME} -query ${BLAST} "${outfmt1[@]}" > ../20mers_minocc${MIN}/unfiltered_blast.txt
 	
-### filter BLAST result
+### filter BLAST result -> PIPE
 	repeatseq_blastfilter.py ../20mers_minocc${MIN}/unfiltered_blast.txt ../20mers_minocc${MIN}/filtered_blast.txt
 	
 ### get sequence occurrence count
@@ -67,7 +68,7 @@ outfmt2=(-outfmt '6 qseqid sseqid length pident mismatch gaps')
 ### blast against database of all strains
 	blastn -db ${ALLSTRAINS} -query ${BLAST} "${outfmt2[@]}" > ../20mers_minocc${MIN}/unfilteredblast_all_strains.txt
 	
-### filter blast result
+### filter blast result -> PIPE
 	repeatseq_blastfilter_all.py ../20mers_minocc${MIN}/unfilteredblast_all_strains.txt \
 	../20mers_minocc${MIN}/filteredblast_all_strains.txt \
 	
