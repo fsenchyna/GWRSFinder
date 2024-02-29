@@ -1,0 +1,10 @@
+ncbi_dataset/
+.DS_Store
+ncbi_tropheryma_whipplei/
+results/
+tests/
+work/
+multi_copy_parser_test.py
+test_process_fasta.py
+test_tallymer2bed.py
+scripts/
