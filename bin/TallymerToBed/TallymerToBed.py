@@ -5,8 +5,8 @@ from typing import Union
 import pandas as pd
 import numpy as np
 
-class Tallymer_2_Bed:
-    """ A class to convert a file from tallymer to bedtools format. """
+class TallymerToBed:
+    """ A class to convert a file from tallymer kmer file to bedtools format. """
 
     def parse_args() -> Union[str, str, int]:
         """ parse arguments from the command line. """
@@ -22,7 +22,7 @@ class Tallymer_2_Bed:
         args = parser.parse_args()
         return args.i[0], args.o[0], args.k[0]
 
-    def tallymer_2_bed(kmer_file:str, k:int) -> pd.DataFrame:
+    def tallymer_to_bed(kmer_file:str, k:int) -> pd.DataFrame:
         """
         Read the tallymer produced kmer file into a dataframe, make sure columns are the correct format, 
         re-arrange, and then print out. 
@@ -32,8 +32,11 @@ class Tallymer_2_Bed:
                      dtype = {'qseqnum' : np.int64, 'qpos' : str, 'counts': np.int64, 'sequence':'str'})
     
         # check that all strings in sequence column are of length k
-        #if not (df['sequence'].str.len() == k).all():
-        #    raise ValueError('All kmers in column 4 must be strings of length k')
+        if not (df['sequence'].str.len() == k).all():
+            raise ValueError('All kmers in column 4 must be strings of length k. ')
+        
+        if not (df['sequence'].str.isalpha()).all():
+            raise ValueError('All kmers in column 4 must be from a dna sequence. ')
     
         # split the Name column into two columns, this should also check that they are a symbol and a number. 
         df[['strand', 'pos']] = df['qpos'].str.extract('(\+|-)(\d+)', expand=True)
@@ -49,9 +52,9 @@ class Tallymer_2_Bed:
         df.to_csv(out_file, sep='\t', header=False, index=False)
 
 def main():
-    input_file, output_file, kmer = Tallymer_2_Bed.parse_args()
-    df = Tallymer_2_Bed.tallymer_2_bed(input_file, kmer)
-    Tallymer_2_Bed.write_df(df, output_file)
+    input_file, output_file, kmer = TallymerToBed.parse_args()
+    df = TallymerToBed.tallymer_to_bed(input_file, kmer)
+    TallymerToBed.write_df(df, output_file)
 
 if __name__ == "__main__":
     main()

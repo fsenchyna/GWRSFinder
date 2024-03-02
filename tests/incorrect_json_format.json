@@ -1,0 +1,7 @@
+{
+    "test" : {
+        "this" : "should", 
+        "cause" : "an error"
+    }
+
+}

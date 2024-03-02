@@ -1,0 +1,5 @@
+0	+0	5	cgagggtactcagcggccac
+0	+1	5	gagggtactcagcggccacg
+0	+2	5	agggtactcagcggccacga
+1	+3	5	gggtactcagcggccacgaa
+2	+0	4	tgttcgtctggggcgcctcg

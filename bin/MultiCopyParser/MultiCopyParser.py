@@ -7,10 +7,12 @@ import pandas as pd
 import numpy as np
 import json
 
-class MultiCopy_Parser:
+class MultiCopyParser:
 
 	def __init__(self):
 		self.fastas = {}
+		self.min_frac = 30
+		self.max_frac = 90
 
 	def parse_args(self):
 		""" parse arguments from the command line. """
@@ -26,23 +28,23 @@ class MultiCopy_Parser:
 		args = parser.parse_args()
 		return args.g[0], args.i[0], args.o[0]
 	
-	def get_seq(start_pos, end_pos, seq):
+	def get_seq(start_pos:int, end_pos:int, seq:str) -> str:
 		return seq[start_pos:end_pos+1]
-
-	def parse_seq(self, df, genome_seq):
+	
+	def parse_seq(self, df:pd.DataFrame, genome_seq:str):
 		""" parse an individual fasta. NEED TO GRAB THE ACCESSION NUMBER FROM THE HEADER!! """
-		sequence = df.apply(lambda x: MultiCopy_Parser.get_seq(x['start_pos'], x['end_pos'], genome_seq), \
+		sequence = df.apply(lambda x: MultiCopyParser.get_seq(x['start_pos'], x['end_pos'], genome_seq), \
 					axis=1).to_list()
 		header = df.apply(lambda x: '_'.join(str(el) for el in x.values.flatten().tolist()), \
 					axis=1).to_list()
 		# create a dictionary so that there are only unique sequences
 		for i in range(len(sequence)):
 			frac = gc_fraction(sequence[i]) * 100
-			if frac > 10 and frac < 90:
+			if frac > self.min_frac and frac < self.max_frac:
 				if sequence[i] not in self.fastas:
 					self.fastas[sequence[i]] = header[i]
 
-	def parse_seqs(self, genome_file, input_file):
+	def parse_seqs(self, genome_file:str, input_file:str):
 		""" save the input file into a dataframe and then run the same function on 
 		each of the fasta entries"""
 
@@ -51,7 +53,6 @@ class MultiCopy_Parser:
 	
 		records = set(df.seqnum.unique())
 		counter = 0
-
 		#open original genome the kmers were taken from 
 		for seq_record in SeqIO.parse(genome_file, "fasta"):  
 			if counter in records:
@@ -59,7 +60,7 @@ class MultiCopy_Parser:
 				self.parse_seq(df.query('seqnum == ' + str(counter)), str(seq_record.seq))
 			counter += 1		
 			
-	def write_out_fasta(self, output_file):
+	def write_out_fasta(self, output_file:str):
 		""" write out the fasta sequences. 
 		Don't want any duplicate sequences or low complexity sequences """
 		with open(output_file, "w") as outfile: 
@@ -67,7 +68,7 @@ class MultiCopy_Parser:
 
 
 def main():
-	multi_copy_parser = MultiCopy_Parser()
+	multi_copy_parser = MultiCopyParser()
 	genome_file, input_file, output_file = multi_copy_parser.parse_args()
 	multi_copy_parser.parse_seqs(genome_file, input_file)
 	multi_copy_parser.write_out_fasta(output_file)

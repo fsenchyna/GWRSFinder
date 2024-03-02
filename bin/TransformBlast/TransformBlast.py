@@ -2,22 +2,22 @@ import pandas as pd
 import argparse
 import json
 
-class Aggregate_Blast:
+class TransformBlast:
 
     def parse_args():
         """ parse arguments"""
         parser = argparse.ArgumentParser(description='Get the copy number of each sequence for each genome.')
-        parser.add_argument('-m', metavar='--multicopy', type=str, nargs=1,
-                    help='multicopy sequence file.')
+        #parser.add_argument('-s', metavar='--multicopy', type=str, nargs=1,
+        #            help='multicopy sequence file.')
         parser.add_argument('-b', metavar='--blast', type=str, nargs=1,
                     help='blast result file.')
         parser.add_argument('-o', metavar='--output', type=str, nargs=1,
                     help='path and name to write the output to')
     
         args = parser.parse_args()
-        return  args.b[0], args.m[0], args.o[0]
+        return  args.b[0], args.o[0]
 
-    def get_copy_numbers(blast_file, fasta_file):
+    def get_copy_numbers(blast_file:str) -> dict:
         """ get the copy numbers of each """
         df = pd.read_csv(blast_file, names=['seqid', 'contigid', 'seqlen', 'pident', 'mismatch', 'gaps'],sep='\t')
         df[['accession', 'contigid']] = df['contigid'].str.extract('(GCA_.+?)_(.+)', expand=True)
@@ -44,16 +44,16 @@ class Aggregate_Blast:
         return result  
 
 
-    def write_out_json(results, output_file):
+    def write_out_json(results:dict, output_file:str):
         """ write out results to json. """
         with open(output_file, 'w') as out_json:
             json.dump(results, out_json, indent=4)
 
 def main():
     """ read in a fasta file and rewrite all headers. """
-    blast_file, fasta_file, output_file = Aggregate_Blast.parse_args()
-    results = Aggregate_Blast.get_copy_numbers(blast_file, fasta_file)
-    Aggregate_Blast.write_out_json(results, output_file)
+    blast_file, output_file = TransformBlast.parse_args()
+    results = TransformBlast.get_copy_numbers(blast_file)
+    TransformBlast.write_out_json(results, output_file)
 
 if __name__ == "__main__":
     main()
