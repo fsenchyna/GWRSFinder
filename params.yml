@@ -1,0 +1,15 @@
+
+# folder that contains the genomes to be searched for multicopy sequences. 
+references :  "./tests/*.{fasta,fa,fna}"
+# folder where results will be written to
+outdir :  "./results"
+# minimum occurrence for an identified multicopy sequence
+min_occurrence : 2
+# the format of the accession id of each genome
+accession_id :  "GC[A,F]_"
+# minimum and maximum gc content of an identified multicopy sequence
+#min_gc: 30 
+#max_gc: 70
+
+#min_match_len: 0.8
+#min_pident: 0.85

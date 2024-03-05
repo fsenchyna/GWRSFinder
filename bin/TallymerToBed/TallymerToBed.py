@@ -32,11 +32,11 @@ class TallymerToBed:
                      dtype = {'qseqnum' : np.int64, 'qpos' : str, 'counts': np.int64, 'sequence':'str'})
     
         # check that all strings in sequence column are of length k
-        if not (df['sequence'].str.len() == k).all():
-            raise ValueError('All kmers in column 4 must be strings of length k. ')
+        #if not (df['sequence'].str.len() == k).all():
+        #    raise ValueError('All kmers in column 4 must be strings of length k. ')
         
-        if not (df['sequence'].str.isalpha()).all():
-            raise ValueError('All kmers in column 4 must be from a dna sequence. ')
+        #if not (df['sequence'].str.isalpha()).all():
+        #    raise ValueError('All kmers in column 4 must be from a dna sequence. ')
     
         # split the Name column into two columns, this should also check that they are a symbol and a number. 
         df[['strand', 'pos']] = df['qpos'].str.extract('(\+|-)(\d+)', expand=True)

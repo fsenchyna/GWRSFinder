@@ -12,7 +12,7 @@ class JsonToFasta:
 
         parser = argparse.ArgumentParser(description='Convert a list of json files (composed of sequence:header pairs) \
                                         into one fasta file with no duplicate sequences. ')
-        parser.add_argument('-i', metavar='--input', type=str, nargs='+',
+        parser.add_argument('-i', metavar='--input', action='append', nargs='+',
                     help='json file(s)') 
         parser.add_argument('-o', metavar='--output', type=str, nargs=1,
                     help='path and name to write the output to')
@@ -40,7 +40,7 @@ class JsonToFasta:
                         fastas[seq] = header
         return fastas
 
-    def write_out_fasta(out_file, fastas):
+    def write_out_fasta(fastas, out_file, ):
         """ write out the fasta to file. """
         with open(out_file, 'w') as output:
             for seq, header in fastas.items():
@@ -51,8 +51,8 @@ class JsonToFasta:
 
 def main():
     json_files, output_file = JsonToFasta.parse_args()
-    fastas = JsonToFasta.rewrite_fasta_headers(json_files)
-    JsonToFasta.write_fasta_to_file(fastas, output_file)
+    fastas = JsonToFasta.json_to_fasta(json_files)
+    JsonToFasta.write_out_fasta(fastas, output_file)
 
 if __name__ == "__main__":
     main()

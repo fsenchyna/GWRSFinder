@@ -9,7 +9,7 @@ class FastaHeaderFormatter:
     Concatenate the accession id to the beginning of each fasta header in a fasta file. 
     """
    
-    def parse_args() -> Union[str, str, int]:
+    def parse_args() -> Union[str, str, str]:
         """ parse arguments from the command line. """
 
         parser = argparse.ArgumentParser(description='Format the headers within the fasta file \
@@ -22,6 +22,12 @@ class FastaHeaderFormatter:
                     help='path and name to write the output to')
     
         args = parser.parse_args()
+        if args.i is None:
+            raise ValueError('there is an error in i.')
+        if args.id is None:
+            raise ValueError('there is an error in id.')
+        if args.o is None:
+            raise ValueError('there is an error in o.')
         return args.i[0], args.id[0], args.o[0]
 
     def rewrite_fasta_headers(fasta_file:str, accession:str) -> list:

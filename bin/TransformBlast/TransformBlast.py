@@ -32,22 +32,38 @@ class TransformBlast:
         df.drop(df[len_covered < 0.9].index, inplace=True)
         df.drop(df[len_covered > 1.3].index, inplace=True)
         # remove those with less than 0.85 pident
-        df.drop(df[df.pident < 70].index, inplace=True)
+        df.drop(df[(df['end_pos'] - df['start_pos'] + 1) < 50].index, inplace=True)
+
 
         result = {}
         # need to get the count num, reset index provides a name to the column but not the best
         # way to do it...
         count_series = df.groupby(['seqid', 'accession','contigid']).size().reset_index(name ='copyno')
+        
+        """ TO DO!!!! """
+        # get the total copy number and order by that...
+        """ ********* """
+
         for name, groupers in count_series.groupby(['seqid']):
             # this also needs to be fixed, seems like 'group' is more than a dataframe, its a bound method
-            result[name] = pd.Series(groupers.copyno.values,index=groupers.accession).to_dict()
+            if type(name) is tuple:
+                name = name[0]
+            total_copy = sum(groupers.copyno.values)
+            if total_copy > 1:
+                result[name] = {
+                    'total_copy' : total_copy,
+                    'copy_per_genome' : pd.Series(groupers.copyno.values,index=groupers.accession).to_dict()
+                }
         return result  
 
 
     def write_out_json(results:dict, output_file:str):
         """ write out results to json. """
         with open(output_file, 'w') as out_json:
-            json.dump(results, out_json, indent=4)
+            try:
+                json.dump(results, out_json, indent=4)
+            except:
+                raise ValueError(results)
 
 def main():
     """ read in a fasta file and rewrite all headers. """

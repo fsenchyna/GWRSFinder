@@ -1,11 +1,5 @@
 #!/usr/bin/env nextflow
 
-//params.references = "$projectDir/ncbi_tropheryma_whipplei/*.{fasta,fa,fna}"
-params.references = "$projectDir/tests/*.{fasta,fa,fna}"
-params.outdir = "$projectDir/results"
-params.min_occurrence = 2
-params.accession_id = "GCA_"
-
 log.info """\
     GWRSFINDER   P I P E L I N E
     ===================================
@@ -19,7 +13,7 @@ log.info """\
 process PARSEACCESSION {
     """ Parse the accession id from the fasta file name. """
 
-    tag "Extracting accesssion id from $fastafile\. "
+    tag "Extracting accesssion id from $fastafile "
     label 'gwrsfinder'
     
     input:
@@ -30,8 +24,8 @@ process PARSEACCESSION {
 
     script:
     """
-    re="${params.accession_id}([^_]*?)[_.].*fasta"
-    if [[ $fastafile =~ \$re ]]; then echo ${params.accession_id}\${BASH_REMATCH[1]}; fi
+    re="(${params.accession_id}[^_]*?)[_.].*[fasta|fa|fna]"
+    if [[ $fastafile =~ \$re ]]; then echo -n \${BASH_REMATCH[1]}; fi
     """
 }
 
@@ -47,12 +41,12 @@ process PROCESSGENOMES {
     val accession_id
 
     output:
-    path "$fastafile"
+    path "${accession_id}.fasta"
 
     script:
     """
-    python3 -m $projectDir/bin/FastaHeaderFormatter -i $fastafile -id $accession_id \
-    -o $fastafile
+    python3 $projectDir/bin/FastaHeaderFormatter/FastaHeaderFormatter.py -i $fastafile -id $accession_id \
+    -o ${accession_id}.fasta
     """
 }
 
@@ -109,18 +103,18 @@ process TALLYMER2BED {
     path repeat_file
 
     output:
-    path "bed_$repeatfile"
+    path "bed_${repeat_file}"
 
     script:
     """
-    python3 -m $projectDir/bin/TallymerToBed -i $repeat_file -o bed_$repeatfile -k ${params.min_occurrence}
+    python3 $projectDir/bin/TallymerToBed/TallymerToBed.py -i $repeat_file -o bed_${repeat_file} -k ${params.min_occurrence}
     """
 }
 
 process BEDTOOLSMERGE {
     """ Merge overlapping or adjacent kmers with bedtools merge. """
 
-    tag " Running bedtools merge on $bed_file\. "  
+    tag " Running bedtools merge on $bed_file "  
     label 'gwrsfinder'
 
     input:
@@ -138,19 +132,21 @@ process BEDTOOLSMERGE {
 process SEQJSON {
     """ Extract sequences from genome based on bed file. """
 
-    tag " Extracting multicopy sequences from $genome_file\."  
+    tag " Extracting multicopy sequences from $genome_file"  
     label 'gwrsfinder'
 
     input:
     path merged_bed_file
     path genome_file
+    val accession_id
     
     output:
-    path 'multicopy_seqs.json'
+    path "${accession_id}.json"
     
     script: 
     """ 
-	python3 -m $projectDir/bin/MultiCopyParser -g $genome_file -i $merged_bed_file -o multicopy_seqs.json
+	python3 $projectDir/bin/MultiCopyParser/MultiCopyParser.py -g $genome_file -i $merged_bed_file \
+    -o ${accession_id}.json
     """
 }
 
@@ -163,14 +159,14 @@ process CONSOLIDATESEQS {
 
     input:
     // done because files are all the same name:https://stackoverflow.com/questions/73660749/nextflow-name-collision
-    path(json_files, stageAs: "?/*") 
+    path json_files
 
     output:
     path 'full_seqs.fasta'
 
     script:
     """
-    python3 -m $projectDir/bin/JsonToFasta.py $json_files
+    python3 $projectDir/bin/JsonToFasta/JsonToFasta.py -i $json_files -o full_seqs.fasta
     """
 }
 
@@ -210,7 +206,7 @@ process AGGREGATERESULTS {
 
     script:
     """
-    python3 -m $projectDir/bin/TransformBlast -b $unfiltered_results -o 'pcr_targets.json'
+    python3 $projectDir/bin/TransformBlast/TransformBlast.py -b $unfiltered_results -o pcr_targets.json
     """
 }
 
@@ -221,18 +217,19 @@ workflow {
         .set { reference_files }
 
     accession_ids = PARSEACCESSION(reference_files)
-    accession_ids.subscribe { println "value: $it" }
+    accession_ids.view { "Accession: ${it}" }
+
     reference_ch = PROCESSGENOMES(reference_files, accession_ids)
 
-    //db_file = CREATEDB(reference_ch.collect())
-    //repeat_file = RUNTALLYMER(reference_ch)
-    //bed_compatible_repeat_file = TALLYMER2BED(repeat_file)
-    //merged_file = BEDTOOLSMERGE(bed_compatible_repeat_file)
+    db_file = CREATEDB(reference_ch.collect())
+    repeat_file = RUNTALLYMER(reference_ch)
+    bed_compatible_repeat_file = TALLYMER2BED(repeat_file)
+    merged_file = BEDTOOLSMERGE(bed_compatible_repeat_file)
     
-    //json_files = SEQJSON(merged_file, reference_ch)
-    //multicopy_fasta_file = CONSOLIDATESEQS(json_files.collect())
-    //unfiltered_results = BLASTSEQS(multicopy_fasta_file, db_file)
-    //AGGREGATERESULTS(multicopy_fasta_file, unfiltered_results)
+    json_files = SEQJSON(merged_file, reference_ch, accession_ids)
+    multicopy_fasta_file = CONSOLIDATESEQS(json_files.collect())
+    unfiltered_results = BLASTSEQS(multicopy_fasta_file, db_file)
+    AGGREGATERESULTS(multicopy_fasta_file, unfiltered_results)
 }
 
 workflow.onComplete {
