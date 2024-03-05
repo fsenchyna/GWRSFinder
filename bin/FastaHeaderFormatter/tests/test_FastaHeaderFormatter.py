@@ -5,7 +5,7 @@ import os
 class TestFastaHeaderFormatter(unittest.TestCase):
         
         test_folder = '../tests/'
-        true_file_name = test_folder + 'GCA_123_test_process.fasta'
+        true_file_name = test_folder + 'GCA_123_original.fasta'
         accession = 'GCA_123'
 
         def test_rewrite_not_fasta(self):

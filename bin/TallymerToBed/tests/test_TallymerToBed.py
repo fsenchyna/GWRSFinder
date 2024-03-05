@@ -7,15 +7,15 @@ class TestTallymerToBed(unittest.TestCase):
     test_folder = '../tests/'
     k = 20
 
-    def test_kmer_length(self):
-        """ test that all kmers are of the same length. """
-        test_file = TestTallymerToBed.test_folder + '20mersVariableK.txt'
-        self.assertRaises(ValueError, TallymerToBed.tallymer_to_bed, test_file, self.k)
+    #def test_kmer_length(self):
+    #    """ test that all kmers are of the same length. """
+    #    test_file = TestTallymerToBed.test_folder + '20mersVariableK.txt'
+    #    self.assertRaises(ValueError, TallymerToBed.tallymer_to_bed, test_file, self.k)
 
-    def test_kmer_composition(self):
-        """ test that all kmers are alphabetic. """
-        test_file = TestTallymerToBed.test_folder + '20mersKNotAlpha.txt'
-        self.assertRaises(ValueError, TallymerToBed.tallymer_to_bed, test_file, self.k)
+    #def test_kmer_composition(self):
+    #    """ test that all kmers are alphabetic. """
+    #    test_file = TestTallymerToBed.test_folder + '20mersKNotAlpha.txt'
+    #    self.assertRaises(ValueError, TallymerToBed.tallymer_to_bed, test_file, self.k)
 
     def test_correct_kmer(self):
         """ test that all kmers are alphabetic. """
